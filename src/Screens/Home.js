@@ -1,13 +1,19 @@
 import React, {useEffect, useState} from "react";
-
+import blackheart from "../assets/blackheart.png";
+import heartoutline from "../assets/heartoutline.png";
 
 const Home = () => {
     console.log(process.env.REACT_APP_API_KEY);
     const apiKey = `${process.env.REACT_APP_API_KEY}`;
     const [imageData, setImageData] = useState([]);
     const [filterOn, setFilterOn] = useState(false);
+    const [isLiked, setIsLiked] = useState(false);
+    const toggle = () => {
+        setIsLiked(!isLiked);
+    }
+
     let startDate = '2021-12-01';
-    let endDate = '2021-12-31';
+    let endDate = '2021-12-11';
 
     const fetchImages = ( prop ) => {
         fetch(`https://api.nasa.gov/planetary/apod?&start_date=${startDate}&end_date=${endDate}&api_key=${apiKey}`)
@@ -30,32 +36,84 @@ const Home = () => {
         fetchImages();
     }
 
+    const Display = () => {
+        return(
+            <div className="row">
+                <div className="column">
+                    <div className="fixed-position">
+                        <h1>Spacestagram</h1>
+                        <h2 className="centre-subheading"> Filter by</h2>
+
+                        <form onSubmit={changeDate} className="centre">
+                            <div className="row">
+                                <div className="form-column">
+                                    <label>Start Date:</label>
+                                </div>
+                                <div className="form-column">
+                                    <input type="date" id="start-date" name="start-date"/>
+                                </div>
+
+                            </div>
+                            <div className="row">
+                                <div className="form-column">
+                                    <label>End Date:</label>
+                                </div>
+                                <div className="form-column">
+                                    <input type="date" id="end-date" name="end-date"/>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="form-column">
+                                    <input className="submit-btn" type="submit"/>
+                                </div>
+
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+                <div className="column">
+                    {imageData.filter((item, index) => index < Math.ceil(imageData.length / 2)).map(image =>
+                        <div className="image-container">
+                            <img src={image.url} alt="Images from Nasa"/>
+
+                            <div className="image-info">
+                                <h2>{image.title}</h2>
+                                <p>{image.date}</p>
+                                <img className="heart" src={isLiked ? blackheart : heartoutline} alt="" onClick={toggle}/>
+                            </div>
+                        </div>)}
+
+                </div>
+
+                <div className="column">
+                    {imageData.filter((item, index) => index > Math.ceil(imageData.length / 2)).map(image =>
+                        <div className="image-container">
+                            <img src={image.url} alt="Images from Nasa"/>
+
+                            <div className="image-info">
+                                <h2>{image.title}</h2>
+                                <p>{image.date}</p>
+                                <img className="heart" src={isLiked ? blackheart : heartoutline} alt="" onClick={toggle}/>
+                            </div>
+                        </div>)}
+                </div>
+            </div>
+        )
+    }
+
     if(filterOn){
         return(
-            <div><form onSubmit={changeDate}>
-                <label>Start Date:</label>
-                <input type="date" id="start-date" name="start-date"/>
-                <label>End Date:</label>
-                <input type="date" id="end-date" name="end-date"/>
-                <input type="submit"/>
-            </form>
-                {imageData.map(e => <img src={e.url} alt="Images from Nasa"/>)}</div>
+            <Display/>
         )
     }
     else{
         return(
-            <div>
-                <form onSubmit={changeDate}>
-                    <label>Start Date:</label>
-                    <input type="date" id="start-date" name="start-date"/>
-                    <label>End Date:</label>
-                    <input type="date" id="end-date" name="end-date"/>
-                    <input type="submit"/>
-                </form>
-                {imageData.map(image => <img src={image.url} alt="Images from Nasa"/>)}
-            </div>
+            <Display/>
         )
     }
 }
+
 
 export default Home;
