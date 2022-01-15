@@ -17,7 +17,7 @@ const Home = () => {
     let endDate = '2021-12-12';
 
     const fetchImages = () => {
-        fetch(`https://api.nasa.gov/planetary/apod?&start_date=${startDate}&end_date=${endDate}&api_key=${apiKey}`)
+        fetch(`https://api.nasa.gov/planetary/apod?&start_date=${startDate}&end_date=${endDate}&api_key=cVqiHBiUpLqgtwPEYvmMetq5dN87Kj89r0ASKbN4`)
                 .then(result => result.json())
                 .then(resultItem => {
                     for(let i = 0; i < resultItem.length; i++){
