@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useRef} from "react";
 import blackheart from "../assets/blackheart.png";
 import heartoutline from "../assets/heartoutline.png";
 
@@ -8,14 +8,15 @@ const Home = () => {
     const [filterOn, setFilterOn] = useState(false);
     const [isLiked, setIsLiked] = useState(false);
 
-    const toggle = () => {
+    const toggle = ( prop ) => {
         setIsLiked(!isLiked);
+
     }
 
     let startDate = '2021-12-01';
     let endDate = '2021-12-12';
 
-    const fetchImages = ( prop ) => {
+    const fetchImages = () => {
         fetch(`https://api.nasa.gov/planetary/apod?&start_date=${startDate}&end_date=${endDate}&api_key=${apiKey}`)
                 .then(result => result.json())
                 .then(resultItem => {
@@ -82,7 +83,7 @@ const Home = () => {
                             <div className="image-info">
                                 <h2>{image.title}</h2>
                                 <p>{image.date}</p>
-                                <img key={image.key} id={image.key} className="heart" src={isLiked ? blackheart : heartoutline} alt="" onClick={toggle}/>
+                                <img key={image.key} className="heart" src={isLiked ? blackheart : heartoutline} alt="" onClick={toggle}/>
                             </div>
                         </div>)}
 
