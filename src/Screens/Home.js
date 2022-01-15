@@ -8,8 +8,10 @@ const Home = () => {
     const [imageData, setImageData] = useState([]);
     const [filterOn, setFilterOn] = useState(false);
     const [isLiked, setIsLiked] = useState(false);
+
     const toggle = () => {
         setIsLiked(!isLiked);
+
     }
 
     let startDate = '2021-12-01';
@@ -74,14 +76,14 @@ const Home = () => {
                 </div>
 
                 <div className="column">
-                    {imageData.filter((item, index) => index < Math.ceil(imageData.length / 2)).map(image =>
+                    {imageData.filter((item, index) => index < Math.ceil(imageData.length / 2)).map((image, i) =>
                         <div className="image-container">
                             <img src={image.url} alt="Images from Nasa"/>
 
                             <div className="image-info">
                                 <h2>{image.title}</h2>
                                 <p>{image.date}</p>
-                                <img className="heart" src={isLiked ? blackheart : heartoutline} alt="" onClick={toggle}/>
+                                <img key={image.key} id={image.key} className="heart" src={isLiked ? blackheart : heartoutline} alt="" onClick={toggle}/>
                             </div>
                         </div>)}
 
