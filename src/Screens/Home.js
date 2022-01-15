@@ -3,7 +3,6 @@ import blackheart from "../assets/blackheart.png";
 import heartoutline from "../assets/heartoutline.png";
 
 const Home = () => {
-    console.log(process.env.REACT_APP_API_KEY);
     const apiKey = `${process.env.REACT_APP_API_KEY}`;
     const [imageData, setImageData] = useState([]);
     const [filterOn, setFilterOn] = useState(false);
@@ -11,11 +10,10 @@ const Home = () => {
 
     const toggle = () => {
         setIsLiked(!isLiked);
-
     }
 
     let startDate = '2021-12-01';
-    let endDate = '2021-12-11';
+    let endDate = '2021-12-12';
 
     const fetchImages = ( prop ) => {
         fetch(`https://api.nasa.gov/planetary/apod?&start_date=${startDate}&end_date=${endDate}&api_key=${apiKey}`)
@@ -76,7 +74,8 @@ const Home = () => {
                 </div>
 
                 <div className="column">
-                    {imageData.filter((item, index) => index < Math.ceil(imageData.length / 2)).map((image, i) =>
+                    {imageData.filter((item, index) => index < Math.ceil(imageData.length / 2)).map(
+                        (image, i) =>
                         <div className="image-container">
                             <img src={image.url} alt="Images from Nasa"/>
 
@@ -90,7 +89,8 @@ const Home = () => {
                 </div>
 
                 <div className="column">
-                    {imageData.filter((item, index) => index > Math.ceil(imageData.length / 2)).map(image =>
+                    {imageData.filter((item, index) => index > Math.ceil(imageData.length / 2)).map(
+                        image =>
                         <div className="image-container">
                             <img src={image.url} alt="Images from Nasa"/>
 
